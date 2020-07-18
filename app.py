@@ -19,24 +19,21 @@ test_y = pickle.load(open("test_y.pickle","rb"))
 test_x = test_x/255
 
 model = tf.keras.Sequential([
-    tf.keras.layers.Conv2D(64,(3,3),input_shape = train_x.shape[1:]),
-    tf.keras.layers.Activation("relu"),
+    tf.keras.layers.Conv2D(64,(3,3),input_shape = train_x.shape[1:], activation="relu"),
     tf.keras.layers.MaxPool2D(pool_size=(2,2)),
 
-    tf.keras.layers.Conv2D(64,(3,3),input_shape = train_x.shape[1:]),
-    tf.keras.layers.Activation("relu"),
+    tf.keras.layers.Conv2D(64,(3,3),input_shape = train_x.shape[1:], activation="relu"),
     tf.keras.layers.MaxPool2D(pool_size=(2,2)),
 
     tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(64),
-    tf.keras.layers.Activation("relu"),
+    tf.keras.layers.Dense(64,activation="relu"),
 
     tf.keras.layers.Dense(1),
     tf.keras.layers.Activation('sigmoid')
 ])
 
 model.compile(optimizer="adam",loss="binary_crossentropy",metrics=['accuracy'])
-model.fit(train_x,train_y,batch_size=32, epochs=3)
+model.fit(train_x,train_y,batch_size=64, epochs=4)
 
 val_loss,val_acc = model.evaluate(train_x,train_y)
 print(val_loss,val_acc)
